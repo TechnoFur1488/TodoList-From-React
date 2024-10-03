@@ -1,0 +1,20 @@
+.divLine {
+    margin-top: 17px;
+    height: 1px;
+    background-color: #6C63FF;
+}
+
+.container {
+    padding-top: 13px;
+}
+
+.containerFlex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.liContainer {
+    max-width: 520px;
+    margin: 0 auto;
+    padding-top: 17px;
+}

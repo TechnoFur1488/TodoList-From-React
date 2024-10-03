@@ -1,0 +1,17 @@
+.btn {
+    width: 100px;
+    height: 38px;
+    background-color: #6C63FF;
+} 
+
+.glavInput {
+    width: 656px;
+    height: 38px;
+    border: 1px solid #6C63FF;
+    border-radius: 5px;
+}
+
+.glavInput:focus {
+    outline: none;
+}
+

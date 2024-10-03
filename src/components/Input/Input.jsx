@@ -1,38 +1,92 @@
 import { useState } from "react";
 import { List } from "../List/List";
 import { nanoid } from 'nanoid'
+import inputStyle from "./Input.module.css"
 
-const initialNotes = []
+let arr
+
+if (localStorage.getItem("ToDo")) {
+    arr = JSON.parse(localStorage.getItem("ToDo"))
+} else {
+    arr = []
+}
+
 
 export const Input = () => {
-    const [notes, setNotes] = useState(initialNotes)
+    const [notes, setNotes] = useState(arr)
     const [value, setValue] = useState('')
 
+    // const [check, setChek] = useState(false)
+
     const handleClickAdd = () => {
-        const newNote = [{
+        if (value === " ") {
+
+        }
+
+        const newNote = {
             id: nanoid(),
             isChecked: false,
             title: value,
             isEdit: false,
-        }]
+        }
 
-        setNotes([...notes, newNote])
+        let copy = [...notes, newNote]
+        setNotes(copy)
         setValue('')
-    };
+
+        localStorage.setItem("ToDo", JSON.stringify(copy))
+    }
 
     const handleClickDel = (id) => {
-        setNotes(notes.filter(i => i.id !== id))
+        let copy = notes.filter(note => note.id !== id)
+        setNotes(copy)
+        localStorage.setItem("ToDo", JSON.stringify(copy))
     }
 
     const handleClickCheck = (id) => {
-        
+        let copy = notes.map(el => {
+            if (el.id === id) {
+                el.isChecked = !el.isChecked
+            }
+
+            return el
+        })
+        setNotes(copy)
+        localStorage.setItem("ToDo", JSON.stringify(copy))
     }
 
+    const handleClickEdit = (id) => {
+        let copy = notes.map(el => {
+            if (el.id === id) {
+                el.isEdit = !el.isEdit
+            }
+            return el
+        })
+        setNotes(copy)
+        localStorage.setItem("ToDo", JSON.stringify(copy))
+    }
+
+    const handleEditInputClick = (id, e) => {
+        let copy = notes.map(el => {
+            if (el.id === id) {
+                el.title = e.target.value
+            }
+            return el
+        })
+        setNotes(copy)
+        localStorage.setItem("ToDo", JSON.stringify(copy))
+    }
+
+
     return (
-        <div>
-            <input value={value} onChange={e => setValue(e.target.value)} type="text" />
-            <button onClick={() => handleClickAdd()}>добавить</button>
-            <List notes={notes} onRemove={handleClickDel} />
+        <div className={inputStyle.container}>
+            <div className={inputStyle.inputBtn}> 
+                <input className={inputStyle.glavInput} placeholder="Создать новую заметку..." value={value} onChange={e => setValue(e.target.value)} type="text" />
+                <button className={inputStyle.btn} onClick={() => handleClickAdd()}>CОЗДАТЬ</button>
+            </div>
+            <div>
+                <List notes={notes} isEditInput={handleEditInputClick} onEdit={handleClickEdit} onCheked={handleClickCheck} onRemove={handleClickDel} />
+            </div>
         </div>
-    );
+    )
 }
