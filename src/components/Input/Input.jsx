@@ -14,27 +14,28 @@ if (localStorage.getItem("ToDo")) {
 
 export const Input = () => {
     const [notes, setNotes] = useState(arr)
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState("")
 
     // const [check, setChek] = useState(false)
 
     const handleClickAdd = () => {
-        if (value === " ") {
+        if (value.trim() === "") {
 
+        } else {
+
+            const newNote = {
+                id: nanoid(),
+                isChecked: false,
+                title: value,
+                isEdit: false,
+            }
+
+            let copy = [...notes, newNote]
+            setNotes(copy)
+            setValue('')
+
+            localStorage.setItem("ToDo", JSON.stringify(copy))
         }
-
-        const newNote = {
-            id: nanoid(),
-            isChecked: false,
-            title: value,
-            isEdit: false,
-        }
-
-        let copy = [...notes, newNote]
-        setNotes(copy)
-        setValue('')
-
-        localStorage.setItem("ToDo", JSON.stringify(copy))
     }
 
     const handleClickDel = (id) => {
@@ -80,7 +81,7 @@ export const Input = () => {
 
     return (
         <div className={inputStyle.container}>
-            <div className={inputStyle.inputBtn}> 
+            <div className={inputStyle.inputBtn}>
                 <input className={inputStyle.glavInput} placeholder="Создать новую заметку..." value={value} onChange={e => setValue(e.target.value)} type="text" />
                 <button className={inputStyle.btn} onClick={() => handleClickAdd()}>CОЗДАТЬ</button>
             </div>

@@ -11,10 +11,45 @@
 .containerFlex {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .liContainer {
     max-width: 520px;
     margin: 0 auto;
     padding-top: 17px;
+}
+
+.btnDel {
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    height: 18px;
+}
+
+.btnEdit {
+    margin-right: 10px;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    height: 18px;
+}
+
+.trash:hover {
+    content: url("C:\work\todolistDon\TodoList-From-React\public\images\redTrash.svg");
+}
+
+.edit:hover {
+    content: url("C:\work\todolistDon\TodoList-From-React\public\images\Vector.svg");
+}
+
+.spanText {
+    text-decoration: line-through;
+    color: #25252580;
+}
+
+.spanTextNone {
+    text-decoration: none;
 }
