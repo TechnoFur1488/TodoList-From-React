@@ -1,5 +1,4 @@
-// Пример компонента Note
-export const Note = ({ note, onDelete, onSelect }) => {
+export const Note = ({ note, onDelete, onSelect  }) => {
 
     const getPreviewText = (text) => {
         return text.split(' ').slice(0, 3).join(' ') + (text.split(' ').length > 3 ? '...' : '');

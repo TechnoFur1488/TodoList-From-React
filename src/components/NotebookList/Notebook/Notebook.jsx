@@ -1,88 +1,64 @@
-import { useState } from "react";
-import { nanoid } from 'nanoid';
-import NoteStyle from "./Notebook.module.css";
-import { Note } from "../Note/Note";
-
-// let arr
-
-// if (localStorage.getItem("Notebook")) {
-//     arr = JSON.parse(localStorage.getItem("Notebook"))
-// } else {
-//     arr = []
-// }
-
+import { useState } from "react"
+import { nanoid } from 'nanoid'
+import NoteStyle from "./Notebook.module.css"
+import { Note } from "../Note/Note"
 
 export const Notebook = () => {
-    const [notes, setNotes] = useState([]);
-    const [newNoteTitle, setNewNoteTitle] = useState('');
-    const [newNoteContent, setNewNoteContent] = useState('');
-    const [selectedNoteId, setSelectedNoteId] = useState(null);
+    const [notes, setNotes] = useState([])
+    const [newNoteTitle, setNewNoteTitle] = useState('')
+    const [currentNoteContent, setCurrentNoteContent] = useState('')
 
     const handleAddNote = () => {
-        if (newNoteTitle.trim() && newNoteContent.trim()) {
-            const newNoteObj = {
+        if (newNoteTitle.trim() && currentNoteContent.trim()) {
+            const noteObj = {
                 id: nanoid(),
                 title: newNoteTitle,
-                content: newNoteContent
-            };
-            setNotes([...notes, newNoteObj]);
-            setNewNoteTitle('');
-            setNewNoteContent('');
-            // localStorage.setItem("Notebook", JSON.stringify(copy))
+                content: currentNoteContent
+            }
+            setNotes([...notes, noteObj])
+            setNewNoteTitle('')
+            setCurrentNoteContent('')
         }
-
-    };
+    }
 
     const handleDeleteNote = (id) => {
-        setNotes(notes.filter(note => note.id !== id));
-        if (selectedNoteId === id) {
-            setSelectedNoteId(null);
-            setNewNoteTitle(''); // Сброс заголовка
-            setNewNoteContent(''); // Сброс содержимого
-        }
-    };
+        setNotes(notes.filter(note => note.id !== id))
+    }
 
-    const handleSelectNote = (note) => {
-        setSelectedNoteId(note.id);
-        setNewNoteTitle(note.title);
-        setNewNoteContent(note.content);
-    };
+    const handleUpdateNote = (id) => {
+        const updatedNotes = notes.map(note =>
+            note.id === id ? { ...note, content: currentNoteContent } : note
+        )
+        setNotes(updatedNotes)
+    }
 
-    const handleUpdateNote = () => {
-        if (selectedNoteId) {
-            const updatedNotes = notes.map(note => 
-                note.id === selectedNoteId ? { ...note, title: newNoteTitle, content: newNoteContent } : note
-            );
-            setNotes(updatedNotes);
+    const handleClickSelect = (id) => {
+        const selectedNote = notes.find(note => note.id === id)
+        if (selectedNote) {
+            setNewNoteTitle(selectedNote.title)
+            setCurrentNoteContent(selectedNote.content)
         }
-    };
+    }
 
     return (
         <div className={NoteStyle.container}>
-            <input 
-                type="text" 
-                value={newNoteTitle} 
-                onChange={(e) => setNewNoteTitle(e.target.value)} 
-                placeholder="Введите заголовок заметки" 
-            />
-            <textarea 
-                value={newNoteContent} 
-                onChange={(e) => setNewNoteContent(e.target.value)} 
-                placeholder="Введите содержимое заметки" 
+            <input type="text" placeholder="Введите заголовок заметки" value={newNoteTitle} onChange={(e) => setNewNoteTitle(e.target.value)}/>
+            <textarea placeholder="Введите содержимое заметки" value={currentNoteContent} onChange={(e) => setCurrentNoteContent(e.target.value)} 
+                onBlur={() => {
+                    const selectedNote = notes.find(note => note.title === newNoteTitle)
+                    if (selectedNote) {
+                        handleUpdateNote(selectedNote.id)
+                    }
+                }}
             />
             <button onClick={handleAddNote}>Добавить заметку</button>
-            <button onClick={handleUpdateNote} disabled={!selectedNoteId}>Обновить заметку</button>
             <div>
                 {notes.map(note => (
                     <div key={note.id}>
-                        <Note 
-                            note={note} 
-                            onDelete={handleDeleteNote} 
-                            onSelect={() => handleSelectNote(note)} 
-                        />
+                        <Note note={note} onDelete={handleDeleteNote} onSelect={() => handleClickSelect(note.id)}/>
                     </div>
                 ))}
             </div>
         </div>
-    );
-};
+    )
+}
