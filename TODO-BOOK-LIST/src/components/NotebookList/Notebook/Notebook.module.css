@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btnBackTodo {
+    background-color: #6C63FF;
+}
+
+.input {
+    margin-bottom: 20px;
+    width: 656px;
+    height: 38px;
+    border: 1px solid #6C63FF;
+    border-radius: 5px;
+}
+
+.textarea {
+    margin-bottom: 20px;
+    width: 300px;
+    height: 100px;
+    border: 1px solid #6C63FF;
+    border-radius: 5px;
+}
+
+.btn {
+    width: 150px;
+    height: 38px;
+    background-color: #6C63FF;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
