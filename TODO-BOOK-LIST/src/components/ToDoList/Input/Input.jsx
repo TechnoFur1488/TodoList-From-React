@@ -2,18 +2,25 @@ import { useState } from "react";
 import { List } from "../List/List";
 import { nanoid } from 'nanoid'
 import inputStyle from "./Input.module.css"
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
-let arr
+export async function loader() {
+    let arr
 
-if (localStorage.getItem("ToDo")) {
-    arr = JSON.parse(localStorage.getItem("ToDo"))
-} else {
-    arr = []
+    if (localStorage.getItem("ToDo")) {
+        arr = JSON.parse(localStorage.getItem("ToDo"))
+    } else {
+        arr = []
+    }
+    return { arr }
 }
 
 
+
+
+
 export const Input = () => {
+    let { arr } = useLoaderData()
     const [notes, setNotes] = useState(arr)
     const [value, setValue] = useState("")
 
@@ -82,7 +89,7 @@ export const Input = () => {
 
     return (
         <div className={inputStyle.container}>
-            <Link to={"/Notebook"}><button>NOTEBOOK</button></Link>
+            <Link to={"/Notebook"}><button className={inputStyle.btnRouter}>NOTEBOOK</button></Link>
             <h1>TODO LIST</h1>
             <div className={inputStyle.inputBtn}>
                 <div className={inputStyle.inputAndBtn}>

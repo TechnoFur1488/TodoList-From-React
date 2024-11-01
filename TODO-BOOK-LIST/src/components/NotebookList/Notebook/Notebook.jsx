@@ -2,17 +2,23 @@ import { useState } from "react";
 import { nanoid } from 'nanoid';
 import NoteStyle from "./Notebook.module.css";
 import { Note } from "../Note/Note";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
-let arr;
 
-if (localStorage.getItem("NoteB")) {
-    arr = JSON.parse(localStorage.getItem("NoteB"));
-} else {
-    arr = [];
+export async function loader() {
+    let arr;
+    
+    if (localStorage.getItem("NoteB")) {
+        arr = JSON.parse(localStorage.getItem("NoteB"));
+    } else {
+        arr = [];
+    }
+
+    return { arr }
 }
 
 export const Notebook = () => {
+    const { arr } = useLoaderData()
     const [notes, setNotes] = useState(arr);
     const [newNoteTitle, setNewNoteTitle] = useState('');
     const [currentNoteContent, setCurrentNoteContent] = useState('');
@@ -68,7 +74,7 @@ export const Notebook = () => {
 
     return (
         <div className={NoteStyle.container}>
-            <Link to={"/"}><button>TODO LIST</button></Link>
+            <Link to={"/"}><button className={NoteStyle.btnRouter}>TODO LIST</button></Link>
             <h1>NOTEBOOK</h1>
             <input
                 className={NoteStyle.input}
