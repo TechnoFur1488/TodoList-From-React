@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { List } from "../List/List";
+import { ListInput } from "../ListInput/ListInput";
 import { nanoid } from 'nanoid'
 import inputStyle from "./Input.module.css"
 import { Link, useLoaderData } from "react-router-dom";
@@ -14,10 +14,6 @@ export async function loader() {
     }
     return { arr }
 }
-
-
-
-
 
 export const Input = () => {
     let { arr } = useLoaderData()
@@ -46,50 +42,10 @@ export const Input = () => {
         }
     }
 
-    const handleClickDel = (id) => {
-        let copy = notes.filter(note => note.id !== id)
-        setNotes(copy)
-        localStorage.setItem("ToDo", JSON.stringify(copy))
-    }
-
-    const handleClickCheck = (id) => {
-        let copy = notes.map(el => {
-            if (el.id === id) {
-                el.isChecked = !el.isChecked
-            }
-
-            return el
-        })
-        setNotes(copy)
-        localStorage.setItem("ToDo", JSON.stringify(copy))
-    }
-
-    const handleClickEdit = (id) => {
-        let copy = notes.map(el => {
-            if (el.id === id) {
-                el.isEdit = !el.isEdit
-            }
-            return el
-        })
-        setNotes(copy)
-        localStorage.setItem("ToDo", JSON.stringify(copy))
-    }
-
-    const handleEditInputClick = (id, e) => {
-        let copy = notes.map(el => {
-            if (el.id === id) {
-                el.title = e.target.value
-            }
-            return el
-        })
-        setNotes(copy)
-        localStorage.setItem("ToDo", JSON.stringify(copy))
-    }
-
 
     return (
         <div className={inputStyle.container}>
-            <Link to={"/Notebook"}><button className={inputStyle.btnRouter}>NOTEBOOK</button></Link>
+            <Link to={"/Notebook"} className={inputStyle.btnRouter}>NOTEBOOK</Link>
             <h1>TODO LIST</h1>
             <div className={inputStyle.inputBtn}>
                 <div className={inputStyle.inputAndBtn}>
@@ -97,7 +53,7 @@ export const Input = () => {
                     <button className={inputStyle.btn} onClick={() => handleClickAdd()}>CОЗДАТЬ</button>
                 </div>
                 <div>
-                    <List notes={notes} isEditInput={handleEditInputClick} onEdit={handleClickEdit} onCheked={handleClickCheck} onRemove={handleClickDel} />
+                    <ListInput isSetNotes={setNotes} notes={notes} />
                 </div>
             </div>
         </div>
