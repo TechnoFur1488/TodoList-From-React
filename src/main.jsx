@@ -5,7 +5,6 @@ import {
 	createBrowserRouter,
 	RouterProvider,
 } from 'react-router-dom';
-// import { Input, loader as inputLoader } from './components/ToDoList/Input/Input';
 import { Input, loader as inputLoader } from './components/ToDoList2/Input/Input';
 import { Notebook, loader as noteLoader } from './components/NotebookList/Notebook/Notebook';
 import { ErrorPage404 } from './components/Error/ErrorPage404';
