@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { ListInput } from "../ListInput/ListInput";
-import { nanoid } from 'nanoid'
+import { useState } from "react"
+import { nanoid } from "nanoid"
+import { List } from "../List2/List2"
 import inputStyle from "./Input.module.css"
 import { Link, useLoaderData } from "react-router-dom";
 
@@ -20,13 +20,10 @@ export const Input = () => {
     const [notes, setNotes] = useState(arr)
     const [value, setValue] = useState("")
 
-    // const [check, setChek] = useState(false)
-
     const handleClickAdd = () => {
         if (value.trim() === "") {
-
+            alert("Введите что то в поле")
         } else {
-
             const newNote = {
                 id: nanoid(),
                 isChecked: false,
@@ -36,24 +33,23 @@ export const Input = () => {
 
             let copy = [...notes, newNote]
             setNotes(copy)
-            setValue('')
+            setValue("")
 
             localStorage.setItem("ToDo", JSON.stringify(copy))
         }
     }
 
-
     return (
         <div className={inputStyle.container}>
-            <Link to={"/Notebook"} className={inputStyle.btnRouter}>NOTEBOOK</Link>
+            <Link to={"/Notebook"}><button className={inputStyle.btnRouter}>NOTEBOOK</button></Link>
             <h1>TODO LIST</h1>
             <div className={inputStyle.inputBtn}>
                 <div className={inputStyle.inputAndBtn}>
-                    <input className={inputStyle.glavInput} placeholder="Создать новую заметку..." value={value} onChange={e => setValue(e.target.value)} type="text" />
-                    <button className={inputStyle.btn} onClick={() => handleClickAdd()}>CОЗДАТЬ</button>
+                    <input  className={inputStyle.glavInput} placeholder="Создать новую заметку..." type="text" value={value} onChange={e => setValue(e.target.value)} />
+                    <button className={inputStyle.btn} onClick={() => handleClickAdd()}>добавить</button>
                 </div>
                 <div>
-                    <ListInput isSetNotes={setNotes} notes={notes} />
+                    <List notes={notes} isSetNotes={setNotes} />
                 </div>
             </div>
         </div>
