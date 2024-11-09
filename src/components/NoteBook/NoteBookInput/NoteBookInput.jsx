@@ -46,8 +46,8 @@ export const NoteBookInput = () => {
     return (
         <div className={s.container}>
             <Link to={"/"}><button className={s.btnLink}>ToDo List</button></Link>
-            <input className={s.input} value={valueInput} onChange={e => setValueInput(e.target.value)} type="text" />
-            <textarea className={s.textarea} value={valueText} onChange={e => setValueText(e.target.value)} name="" id="" />
+            <input placeholder="Введите заголовок..." className={s.input} value={valueInput} onChange={e => setValueInput(e.target.value)} type="text" />
+            <textarea placeholder="Введите заметку..." className={s.textarea} value={valueText} onChange={e => setValueText(e.target.value)} name="" id="" />
             <button className={s.btn} onClick={() => handleClickAdd()}>Добавить заметку</button>
             <div>
                 <NotebookList notes={notes}
